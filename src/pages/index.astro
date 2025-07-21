@@ -1,11 +1,17 @@
 ---
-import Welcome from '../components/Welcome.astro';
+import { Collections } from '../../pocketbase-types';
+import Card from '../components/Card.astro';
 import Layout from '../layouts/Layout.astro';
+import pb  from '../utils/pb';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+let listMaisons = await pb.collection(Collections.Maison).getFullList({
+	sort: '-created',
+});
 ---
 
 <Layout>
-	<Welcome />
+	<a href="/add" ><button>Ajouter une Offre</button></a>
+	{listMaisons.map((maison) => (
+		<Card maison={maison} />
+	))}
 </Layout>

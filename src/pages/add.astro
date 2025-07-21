@@ -1,0 +1,71 @@
+---
+//An astro Page for adding a new maison
+import Layout from '../layouts/Layout.astro';
+import pb from '../utils/pb';
+
+export const prerender = false
+
+let formErrors = '';
+
+if(Astro.request.method === 'POST') {
+    const formData = await Astro.request.formData();
+    //validate form data
+    const nomMaison = formData.get('nomMaison');
+    const adresse = formData.get('adresse');
+    const prix = Number(formData.get('prix') ?? 0);
+    const surface = Number(formData.get('surface') ?? 0);
+    const nbChambres = Number(formData.get('nbChambres') ?? 0);
+    const nbSdb = Number(formData.get('nbSdb') ?? 0);
+    const image = formData.get('image');
+    const favori = formData.get('favori') === 'on';
+    if (!nomMaison || !adresse) {
+        formErrors = 'Nom de la maison et adresse sont requis.';
+    } else if (isNaN(prix) || isNaN(surface) || isNaN(nbChambres) || isNaN(nbSdb) || prix < 0 || surface < 0 || nbChambres < 0 || nbSdb < 0) {
+        formErrors = 'Les valeurs numériques doivent être des nombres positifs.';
+    } else if (image && !(image instanceof File)) {
+        formErrors = 'L\'image doit être un fichier valide.';
+    }
+    if(!formErrors){  
+        try {
+            await pb.collection('maison').create(formData);
+            return Astro.redirect('/');
+        } catch (error) {
+            console.error('Error creating maison:', error);
+        }
+    }
+}
+
+---
+
+<Layout>
+    <h1>Add a New Maison</h1>
+    {formErrors && <p style="color: red;">{formErrors}</p>}
+    <form method="post" action="/add" enctype="multipart/form-data">
+        <label for="nomMaison">Nom de la Maison:</label>
+        <input type="text" id="nomMaison" name="nomMaison" required />
+
+        <label for="adresse">Adresse:</label>
+        <input type="text" id="adresse" name="adresse"  />
+
+        <label for="prix">Prix (€):</label>
+        <input type="number" id="prix" name="prix" min="0" step="1000"  />
+
+        <label for="surface">Surface (m²):</label>
+        <input type="number" id="surface" name="surface" min="0" step="0.1"  />
+
+        <label for="nbChambres">Nombre de chambres:</label>
+        <input type="number" id="nbChambres" name="nbChambres" min="0"  />
+
+        <label for="nbSdb">Nombre de salles de bains:</label>
+        <input type="number" id="nbSdb" name="nbSdb" min="0"  />
+
+        <label for="image">Image:</label>
+        <input type="file" id="image" name="image" accept="image/*"  /> <!--accept="image/*" restricts the file picker to image MIME types (e.g., .png, .jpg, .webp, etc.).  -->
+        <label>
+            <input type="checkbox" id="favori" name="favori" />
+            Favori
+        </label>
+
+        <button type="submit">Ajouter</button>
+    </form>
+</Layout>

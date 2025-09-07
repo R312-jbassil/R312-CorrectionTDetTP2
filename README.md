@@ -343,8 +343,6 @@ Pour aller plus loin, consultez la [documentation DaisyUI sur les thèmes](https
 
 
 # Exercices
-## Exercices pratiques
-
 Pour mettre en application ce que vous avez appris, réalisez les exercices suivants :
 
 1. **Créer votre propre thème DaisyUI**

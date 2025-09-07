@@ -354,6 +354,8 @@ Pour mettre en application ce que vous avez appris, réalisez les exercices suiv
 
 2. **Styliser votre site avec DaisyUI**
     - Remplacez les éléments HTML classiques par des composants DaisyUI.
+    - Assurez-vous que votre site est responsive.  
+        Utilisez les utilitaires responsive de Tailwind CSS (`sm:`, `md:`, `lg:`, `xl:`) pour adapter la mise en page et le style de vos composants DaisyUI sur tous les formats d’écran. Consultez la [documentation Tailwind CSS sur la responsivité](https://tailwindcss.com/docs/responsive-design) pour plus d’exemples.   
     - Essayez d’utiliser au moins un composant de chaque catégorie :
       - **Actions** (ex : boutons, dropdowns)
       - **Navigation** (ex : navbar, tabs)

@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @plugin "daisyui" {
-    themes: light --default, dark , myTheme;
+    themes: light --default, dark, myTheme, cyberpunk, forest;
 }
 
 @plugin "daisyui/theme" {
